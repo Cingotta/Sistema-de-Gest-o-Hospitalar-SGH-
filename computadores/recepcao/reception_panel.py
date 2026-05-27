@@ -72,14 +72,13 @@ while opcao != 3:
                 else:
                     print("Opção inválida. Tente novamente.")
 
-        elif opcao == 2:
-            nome = input("Digite seu nome: ")
-            senha = input("Digite sua senha: ")
+    elif opcao == 2:
+        nome = input("Digite seu nome: ")
+        senha = input("Digite sua senha: ")
 
-            cursor.execute("INSERT INTO cache (nome, senha) values (?, ?)", (nome, senha))
-            conexao.commit()
-            print("Cadastro realizado com sucesso! Agora você pode fazer login.")
+        cursor.execute("INSERT INTO cache (nome, senha) values (?, ?)", (nome, senha))
+        conexao.commit()
+        print("Cadastro realizado com sucesso! Agora você pode fazer login.")
             
-        else:
-            print("Nome ou senha incorretos. Tente novamente.")
-
+    else:
+        print("Nome ou senha incorretos. Tente novamente.")
