@@ -7,6 +7,7 @@ AUTH_DB = os.path.join(_DIR, '..', 'funcionarios', 'principal', 'auth.db')
 
 def criar_tabela_cobrancas():
     conexao = sqlite3.connect(CACHE_DB)
+    cursor.execute("PRAGMA foreign_keys = ON")
     cursor = conexao.cursor()
 
     cursor.execute('''
@@ -51,6 +52,7 @@ def listar_cobrancas(usuario_id):
 
 def criar_tabela_faturamento():
     conexao = sqlite3.connect(AUTH_DB)
+    cursor.execute("PRAGMA foreign_keys = ON")
     cursor = conexao.cursor()
 
     cursor.execute('''
