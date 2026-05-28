@@ -8,7 +8,9 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nome TEXT NOT NULL UNIQUE,
     senha TEXT NOT NULL,
-    tipo_usuario TEXT NOT NULL
+    tipo_usuario TEXT NOT NULL,
+    faturamento TEXT NOT NULL,
+    cobrancas TEXT NOT NULL
 )''')
 
 conexao.commit()
