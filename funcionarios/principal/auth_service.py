@@ -2,8 +2,8 @@ import sqlite3
 from unidecode import unidecode ## para tirar acentos
 
 conexao = sqlite3.connect('auth.db')
-
 cursor = conexao.cursor()
+
 cursor.execute('''CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT NOT NULL UNIQUE,
@@ -33,32 +33,31 @@ while opcao != 3:
         resultado = cursor.fetchone()
 
         if resultado is not None:
-            from billing_service import criar_tabela_cobrancas, criar_cobranca, listar_cobrancas
+            from clientes.billing_service import criar_tabela_cobrancas, criar_cobranca, listar_cobrancas
 
             usuario_id = resultado[0]
 
-            print("Seja bem-vindo {}".format(nome))
-            
+            print(f"Seja bem-vindo {nome}")
+
             criar_tabela_cobrancas()
             criar_cobranca(usuario_id, "Consulta medica", 150.0)
 
             cobrancas = listar_cobrancas(usuario_id)
 
             for cobranca in cobrancas:
-                print("Descrição: {} | Valor: R$ {} | Status: {}".format(
-                cobranca[0], cobranca[1], cobranca[2]
-        ))
-                
+                print(f"Descrição: {cobranca[0]} | Valor: R$ {cobranca[1]} | Status: {cobranca[2]}")
         else:
             print("Usuario nao encontrado, tente novamente.")
     elif opcao == 2:
         nome = input("Por favor, nos informe seu nome: ")
         tipo_usuario = unidecode(input("Voce é medico ou enfermeira? ")) ## tira os acentos
         senha = input("Por favor, crie uma senha: ")
-
-        cursor.execute(
-            "INSERT INTO users (username, tipo_usuario, password) VALUES (?, ?, ?)",
-            (nome, tipo_usuario, senha)
-        )
-        conexao.commit()
-        print("Cadastro realizado com sucesso! Agora você pode fazer login.")
+        try:
+            cursor.execute(
+                "INSERT INTO users (username, tipo_usuario, password) VALUES (?, ?, ?)",
+                (nome, tipo_usuario, senha)
+            )
+            conexao.commit()
+            print("Cadastro realizado com sucesso! Agora você pode fazer login.")
+        except sqlite3.IntegrityError:
+            print("Erro: O nome de usuário já existe. Por favor, escolha outro nome.")
