@@ -1,7 +1,14 @@
 import sqlite3
+import os
+import sys
 from unidecode import unidecode ## para tirar acentos
 
-conexao = sqlite3.connect('auth.db')
+_DIR = os.path.dirname(os.path.abspath(__file__))
+_ROOT = os.path.abspath(os.path.join(_DIR, '..', '..'))
+if _ROOT not in sys.path:
+    sys.path.insert(0, _ROOT)
+
+conexao = sqlite3.connect(os.path.join(_DIR, 'auth.db'))
 cursor = conexao.cursor()
 
 cursor.execute('''CREATE TABLE IF NOT EXISTS users (
@@ -32,7 +39,8 @@ while opcao != 3:
         cursor.execute("SELECT * FROM users WHERE username = ? AND password = ?", (nome, senha,))
         resultado = cursor.fetchone()
 
-        if resultado is not None:
+        if resultado is not None: # !!!!           
+            ##aqui não faz sentido que os medicos e enfermeiros sejam redirecionados para a tela de cobrança
             from clientes.billing_service import criar_tabela_cobrancas, criar_cobranca, listar_cobrancas
 
             usuario_id = resultado[0]
