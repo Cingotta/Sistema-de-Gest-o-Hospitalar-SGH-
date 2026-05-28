@@ -1,12 +1,10 @@
 import sqlite3
 import os
-import sys
 from unidecode import unidecode ## para tirar acentos
 
 _DIR = os.path.dirname(os.path.abspath(__file__))
-_ROOT = os.path.abspath(os.path.join(_DIR, '..', '..'))
-if _ROOT not in sys.path:
-    sys.path.insert(0, _ROOT)
+
+
 
 conexao = sqlite3.connect(os.path.join(_DIR, 'auth.db'))
 cursor = conexao.cursor()
