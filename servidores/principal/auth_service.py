@@ -6,8 +6,8 @@ conexao = sqlite3.connect('auth.db')
 cursor = conexao.cursor()
 cursor.execute('''CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nome TEXT NOT NULL UNIQUE,
-    senha TEXT NOT NULL,
+    username TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
     tipo_usuario TEXT NOT NULL
 )''')
 
@@ -29,7 +29,7 @@ while opcao != 3:
         nome = input("Digite seu nome: ")
         senha = input("Digite sua senha: ")
 
-        cursor.execute("SELECT * FROM users WHERE nome = ? AND senha = ?", (nome, senha,))
+        cursor.execute("SELECT * FROM users WHERE username = ? AND password = ?", (nome, senha,))
         resultado = cursor.fetchone()
 
         if resultado is not None:
@@ -57,7 +57,7 @@ while opcao != 3:
         senha = input("Por favor, crie uma senha: ")
 
         cursor.execute(
-            "INSERT INTO users (nome, tipo_usuario, senha) VALUES (?, ?, ?)",
+            "INSERT INTO users (username, tipo_usuario, password) VALUES (?, ?, ?)",
             (nome, tipo_usuario, senha)
         )
         conexao.commit()

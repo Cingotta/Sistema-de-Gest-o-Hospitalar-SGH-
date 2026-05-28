@@ -1,7 +1,12 @@
 import sqlite3
+import os
+
+_DIR = os.path.dirname(os.path.abspath(__file__))
+CACHE_DB = os.path.join(_DIR, '..', '..', 'computadores', 'recepcao', 'cache.db')
+AUTH_DB = os.path.join(_DIR, 'auth.db')
 
 def criar_tabela_cobrancas():
-    conexao = sqlite3.connect('cache.db')
+    conexao = sqlite3.connect(CACHE_DB)
     cursor = conexao.cursor()
 
     cursor.execute('''
@@ -19,7 +24,7 @@ def criar_tabela_cobrancas():
     conexao.close()
 
 def criar_cobranca(usuario_id, descricao, valor):
-    conexao = sqlite3.connect('cache.db')
+    conexao = sqlite3.connect(CACHE_DB)
     cursor = conexao.cursor()
 
     cursor.execute(
@@ -31,7 +36,7 @@ def criar_cobranca(usuario_id, descricao, valor):
     conexao.close()
 
 def listar_cobrancas(usuario_id):
-    conexao = sqlite3.connect('cache.db')
+    conexao = sqlite3.connect(CACHE_DB)
     cursor = conexao.cursor()
 
     cursor.execute(
@@ -45,7 +50,7 @@ def listar_cobrancas(usuario_id):
     return cobrancas
 
 def criar_tabela_faturamento():
-    conexao = sqlite3.connect('auth.db')
+    conexao = sqlite3.connect(AUTH_DB)
     cursor = conexao.cursor()
 
     cursor.execute('''
@@ -63,7 +68,7 @@ def criar_tabela_faturamento():
     conexao.close()
 
 def criar_faturamento(usuario_id, descricao, valor, status):
-    conexao = sqlite3.connect('auth.db')
+    conexao = sqlite3.connect(AUTH_DB)
     cursor = conexao.cursor()
 
     cursor.execute(
@@ -75,7 +80,7 @@ def criar_faturamento(usuario_id, descricao, valor, status):
     conexao.close()
 
 def listar_faturamento(usuario_id):
-    conexao = sqlite3.connect('auth.db')
+    conexao = sqlite3.connect(AUTH_DB)
     cursor = conexao.cursor()
 
     cursor.execute(
