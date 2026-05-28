@@ -8,9 +8,7 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nome TEXT NOT NULL UNIQUE,
     senha TEXT NOT NULL,
-    tipo_usuario TEXT NOT NULL,
-    faturamento TEXT NOT NULL,
-    cobrancas TEXT NOT NULL
+    tipo_usuario TEXT NOT NULL
 )''')
 
 conexao.commit()
@@ -35,7 +33,22 @@ while opcao != 3:
         resultado = cursor.fetchone()
 
         if resultado is not None:
+            from billing_service import criar_tabela_cobrancas, criar_cobranca, listar_cobrancas
+
+            usuario_id = resultado[0]
+
             print("Seja bem-vindo {}".format(nome))
+            
+            criar_tabela_cobrancas()
+            criar_cobranca(usuario_id, "Consulta medica", 150.0)
+
+            cobrancas = listar_cobrancas(usuario_id)
+
+            for cobranca in cobrancas:
+                print("Descrição: {} | Valor: R$ {} | Status: {}".format(
+                cobranca[0], cobranca[1], cobranca[2]
+        ))
+                
         else:
             print("Usuario nao encontrado, tente novamente.")
     elif opcao == 2:
