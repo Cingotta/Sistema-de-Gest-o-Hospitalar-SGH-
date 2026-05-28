@@ -2,9 +2,9 @@ import os
 import sqlite3
 
 _DIR = os.path.dirname(os.path.abspath(__file__))
-CACHE_DB = os.path.join(_DIR, '..', '..', 'computadores', 'recepcao', 'cache.db')
-AUTH_DB = os.path.join(_DIR, '..', 'recepcao', 'auth.db')
-PATIENTES_DB = os.path.join(_DIR, '..', '..', 'servidores', 'principal', 'patient_db.db')
+CACHE_DB = os.path.join(_DIR, '..', '..', '..', 'clientes', 'recepcao', 'cache.db')
+AUTH_DB = os.path.join(_DIR, '..', '..', '..', 'funcionarios', 'principal', 'auth.db')
+PATIENTES_DB = os.path.join(_DIR, '..', '..', '..', 'funcionarios', 'principal', 'patient_db.db')
 
 
 def criar_tabela_prescricoes() -> None:

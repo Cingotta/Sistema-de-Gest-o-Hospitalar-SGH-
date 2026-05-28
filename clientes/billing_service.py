@@ -2,8 +2,8 @@ import sqlite3
 import os
 
 _DIR = os.path.dirname(os.path.abspath(__file__))
-CACHE_DB = os.path.join(_DIR, '..', '..', 'computadores', 'recepcao', 'cache.db')
-AUTH_DB = os.path.join(_DIR, 'auth.db')
+CACHE_DB = os.path.join(_DIR, 'recepcao', 'cache.db')
+AUTH_DB = os.path.join(_DIR, '..', 'funcionarios', 'principal', 'auth.db')
 
 def criar_tabela_cobrancas():
     conexao = sqlite3.connect(CACHE_DB)
