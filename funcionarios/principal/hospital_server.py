@@ -3,10 +3,13 @@ import sqlite3
 conexao = sqlite3.connect('patient_db.db') # crio um banco de dados
 
 cursor = conexao.cursor() # conecto com o banco de dados
+cursor.execute("PRAGMA foreign_keys = ON")
+
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS patient_db (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         nome TEXT NOT NULL,
+        senha TEXT NOT NULL,
         idade INTEGER,
         peso REAL,
         altura REAL,
@@ -41,6 +44,7 @@ while opcao != 5:
 
     if opcao == 1:
         nome = input("Digite o nome do paciente: ")
+        senha = input("Digite a senha do paciente: ")
         idade = int(input("Digite a idade do paciente: "))
         peso = float(input("Digite o peso do paciente (kg): "))
         altura = float(input("Digite a altura do paciente (m): "))
@@ -52,9 +56,9 @@ while opcao != 5:
         else: 
             doenca = False
             tipo_doenca = None
-        comando_sql = "INSERT INTO patient_db (nome, idade, peso, altura, doenca, tipo_doenca) VALUES (?, ?, ?, ?, ?, ?)"
+        comando_sql = "INSERT INTO patient_db (nome, senha, idade, peso, altura, doenca, tipo_doenca) VALUES (?, ?, ?, ?, ?, ?, ?)"
 
-        valores = (nome, idade, peso, altura, doenca, tipo_doenca) # faco um tule com os valores
+        valores = (nome, senha, idade, peso, altura, doenca, tipo_doenca) # faco um tule com os valores
 
         cursor.execute(comando_sql, valores ) # injeto no banco de dados
         conexao.commit() # commito a trnasacao ao bano de dados
@@ -74,13 +78,14 @@ while opcao != 5:
 
                 id_paciente = paciente[0]
                 nome_paciente = paciente[1]
-                idade_paciente = paciente[2]
-                peso_paciente = paciente[3]
-                altura_paciente = paciente[4]
-                
-                if paciente[5]: # se o paciente tiver doença
+                senha_paciente = paciente[2]
+                idade_paciente = paciente[3]
+                peso_paciente = paciente[4]
+                altura_paciente = paciente[5]
+
+                if paciente[6]: # se o paciente tiver doença
                     doenca_paciente = "Sim"
-                    tipo_doenca_paciente = paciente[6]
+                    tipo_doenca_paciente = paciente[7]
                 else:
                     doenca_paciente = "Não"
                     tipo_doenca_paciente = "N/A"
@@ -99,6 +104,7 @@ while opcao != 5:
             nova_idade = int(input("Digite a nova idade do paciente: "))
             novo_peso = float(input("Digite o novo peso do paciente (kg): "))
             nova_altura = float(input("Digite a nova altura do paciente (m): "))
+            nova_senha = input("Digite a nova senha do paciente: ")
             doenca = input("O paciente tem alguma doenca? (S/N): ").upper()
 
             if doenca == 'S':
@@ -110,7 +116,7 @@ while opcao != 5:
             
             comando_sql = """
                 UPDATE patient_db
-                SET nome = ?, idade = ?, peso = ?, altura = ?, doenca = ?, tipo_doenca = ?
+                SET nome = ?, senha = ?, idade = ?, peso = ?, altura = ?, doenca = ?, tipo_doenca = ?
                 WHERE id = ?
             """
             valores = (novo_nome, nova_idade, novo_peso, nova_altura, doenca, tipo_doenca, id_paciente)
